@@ -5,14 +5,19 @@ using MyApi.Repositories;
 
 namespace MyApi.Controllers
 {
+    using Microsoft.Extensions.Logging;
+
     [Route("[controller]")]
     public class UsersController : Controller
     {
         private readonly IUserRepository userRepository;
+        private readonly ILogger logger;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserRepository userRepository,
+            ILogger<UsersController> logger)
         {
             this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet]
@@ -22,6 +27,7 @@ namespace MyApi.Controllers
         [HttpGet("{name}")]
         public IActionResult Get(string name)
         {
+            logger.LogInformation($"Fetch user by name: {name}");
             var user = userRepository.Get(name);
             if(user == null)
             {
