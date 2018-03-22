@@ -6,8 +6,10 @@ using MyApi.Repositories;
 namespace MyApi.Controllers
 {
     using Microsoft.Extensions.Logging;
+    using MyApi.Filters;
 
     [Route("[controller]")]
+    [ExceptionHandler]
     public class UsersController : Controller
     {
         private readonly IUserRepository userRepository;
