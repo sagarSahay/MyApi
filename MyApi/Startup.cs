@@ -10,6 +10,7 @@ using MyApi.Repositories;
 
 namespace MyApi
 {
+    using MyApi.Middleware;
     using Settings;
 
     public class Startup
@@ -51,6 +52,8 @@ namespace MyApi
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            app.UseRequestLog();
+            app.UseHeaderValidation();
             app.UseMvc(routes =>
             {
                 routes.MapRoute("default", "{controller=Home}");
